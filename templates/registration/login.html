@@ -15,8 +15,8 @@
     {% endif %}
 {% endif %}
 
-<!--TODO: Añadir la url login-->
-<form method="post" action="{% url 'login' %}">
+
+<form method="post" action="{% url 'login_view' %}">
 {% csrf_token %}
 
 <div>
@@ -35,8 +35,7 @@
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
-<!--TODO: Añadir la url registro y cambiar contraseña-->
 <p><a href="{% url 'password_change_done' %}">Lost password?</a></p>
-<p><a href="{% url 'password_change_form' %}">Register</a></p>
+<p><a href="{% url 'register' %}">Register</a></p>
 
 {% endblock %}

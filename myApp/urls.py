@@ -3,12 +3,13 @@ from myApp import views
 
 urlpatterns = [
     path('home/', views.home, name='home'),
-    # TODO: Añadir las urls para accounts
-    # TODO: Añadir las urls para register
     path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
-    # TODO: Añadir las urls para iris
-    # TODO: Añadir las urls para insertData
-    # TODO: Añadir las urls para updateData
-    # TODO: Añadir las urls para deleteData
+    path('login_view/', views.login_view, name='login_view'),
+    path('password_change_done/', views.password_change_done, name='password_change_done'),
+    path('password_change_form/', views.password_change_form, name='password_change_form'),
+    path('logged_out/', views.logged_out, name='login'),
+    path('iris_delete/', views.iris_delete, name='iris_delete'),
+    path('iris_insert/', views.iris_insert, name='iris_insert'),
+    path('iris_main/', views.iris_main, name='iris_main'),
+    path('iris_update/', views.iris_update, name='iris_update'),
 ]

@@ -3,8 +3,7 @@ from .forms import UserCreateForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.db import IntegrityError
-# Create your views here.
-
+from django.contrib.auth import login
 
 def home(request):
     return render(request,
@@ -14,7 +13,7 @@ def home(request):
                            'class': "Iris Setosa"})
 
 
-def login(request):
+def login_view(request):
     return render(
         request,
         "registration/login.html"
@@ -39,6 +38,48 @@ def register(request):
                 login(request, user)
                 return redirect('home.html')
             except IntegrityError:
-                return render(request, 'registration/register.html', {'form': UserCreateForm, 'error': 'Username ya tomado, agarra otro'})
+                return render(request, 'registration/register.html', {'form': UserCreateForm, 'error': 'Username repetido, inserta otro'})
         else:
-            return render(request, 'registration/register.html', {'form': UserCreateForm, 'error': 'Password no hace Match'})
+            return render(request, 'registration/register.html', {'form': UserCreateForm, 'error': 'Password incorrecto'})
+
+
+def password_change_form(request):
+    return render(
+        request,
+        "registration/password_change_form.html"
+    )
+
+
+def logged_out(request):
+    return render(
+        request,
+        "registration/logged_out.html"
+    )
+
+
+def iris_delete(request):
+    return render(
+        request,
+        "iris/delete.html"
+    )
+
+
+def iris_insert(request):
+    return render(
+        request,
+        "iris/insert.html"
+    )
+
+
+def iris_main(request):
+    return render(
+        request,
+        "iris/main.html"
+    )
+
+
+def iris_update(request):
+    return render(
+        request,
+        "iris/update.html"
+    )
