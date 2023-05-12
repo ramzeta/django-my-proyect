@@ -3,7 +3,11 @@ from .forms import UserCreateForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.db import IntegrityError
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login, logout
+from .forms import IrisDataForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
+
 
 def home(request):
     return render(request,
@@ -14,10 +18,19 @@ def home(request):
 
 
 def login_view(request):
-    return render(
-        request,
-        "registration/login.html"
-    )
+    if request.method == 'GET':
+        return render(request, 'registration/login.html', {'form': AuthenticationForm }) 
+    else:
+        user = authenticate(request,
+            username = request.POST['username'],
+            password = request.POST['password'])
+        if user is None:
+            return render(request, 'registration/login.html',
+                {'form': AuthenticationForm(),
+                'error': 'Username and password do not match '})
+        else:
+            login(request, user)
+            return redirect('home')
 
 
 def password_change_done(request):
@@ -51,6 +64,7 @@ def password_change_form(request):
 
 
 def logged_out(request):
+    logout(request)
     return render(
         request,
         "registration/logged_out.html"
@@ -65,10 +79,15 @@ def iris_delete(request):
 
 
 def iris_insert(request):
-    return render(
-        request,
-        "iris/insert.html"
-    )
+    if request.method == 'POST':
+        form = IrisDataForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('iris_main')
+    else:
+        form = IrisDataForm()
+
+    return render(request, 'iris/insert.html', {'form': form})
 
 
 def iris_main(request):
@@ -83,3 +102,11 @@ def iris_update(request):
         request,
         "iris/update.html"
     )
+
+
+def password_change(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)

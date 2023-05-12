@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% if form.errors %}
+{% if form.error_messages %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
 
@@ -18,7 +18,7 @@
 
 <form method="post" action="{% url 'login_view' %}">
 {% csrf_token %}
-
+<br>
 <div>
   <td>{{ form.username.label_tag }}</td>
   <td>{{ form.username }}</td>
@@ -27,9 +27,9 @@
   <td>{{ form.password.label_tag }}</td>
   <td>{{ form.password }}</td>
 </div>
-
+ 
 <div>
-  <input type="submit" value="login" />
+  <input type="submit" value="login_view" />
   <input type="hidden" name="next" value="{{ next }}" />
 </div>
 </form>
